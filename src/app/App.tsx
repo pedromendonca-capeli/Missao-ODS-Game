@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 
 // ─── SDG Data ────────────────────────────────────────────────────────────────
-
-const SDGs = [
+const SDGs
+ = [
   { id: 1, name: "Erradicação da Pobreza", color: "#E5243B", emoji: "🏠", icon: "👐", desc: "Acabar com a pobreza em todas as suas formas, em todos os lugares.", goal: "Identificar causas e soluções para a pobreza extrema.", xp: 100 },
   { id: 2, name: "Fome Zero", color: "#DDA63A", emoji: "🌾", icon: "🍽️", desc: "Acabar com a fome, alcançar a segurança alimentar e melhoria da nutrição.", goal: "Explorar formas de garantir alimentação segura e sustentável.", xp: 100 },
   { id: 3, name: "Saúde e Bem-Estar", color: "#4C9F38", emoji: "💚", icon: "🏥", desc: "Assegurar uma vida saudável e promover o bem-estar para todos.", goal: "Aprender sobre acesso universal à saúde e prevenção de doenças.", xp: 110 },
@@ -26,20 +26,562 @@ const SDGs = [
 
 const QUIZZES: Record<number, { type: string; question: string; options?: string[]; correct: number | boolean; explanation: string }[]> = {
   1: [
-    { type: "multiple", question: "Qual porcentagem da população mundial vivia em extrema pobreza em 2023?", options: ["Menos de 5%", "Cerca de 10%", "Mais de 20%", "Cerca de 30%"], correct: 1, explanation: "Aproximadamente 10% da população mundial ainda vive com menos de US$2,15 por dia." },
-    { type: "truefalse", question: "A pobreza é apenas falta de dinheiro, sem relação com acesso à saúde ou educação.", correct: false, explanation: "Pobreza é multidimensional: inclui falta de saúde, educação, moradia e oportunidades." },
-    { type: "multiple", question: "Qual ação é mais eficaz para reduzir a pobreza?", options: ["Caridade individual", "Transferência de renda + educação + saúde", "Ignorar o problema", "Apenas crescimento econômico"], correct: 1, explanation: "Programas integrados como Bolsa Família combinam renda, educação e saúde para maior impacto." },
-  ],
-  6: [
-    { type: "multiple", question: "Qual porcentagem da água doce do planeta está disponível para consumo humano?", options: ["50%", "25%", "10%", "Menos de 3%"], correct: 3, explanation: "Apenas cerca de 2,5% da água do planeta é doce, e a maior parte está em geleiras." },
-    { type: "truefalse", question: "Um banho de 15 minutos gasta mais água do que encher uma banheira.", correct: true, explanation: "Um banho longo pode gastar até 270 litros, enquanto uma banheira usa cerca de 150 litros." },
-    { type: "multiple", question: "Qual hábito economiza mais água no dia a dia?", options: ["Lavar louça com torneira aberta", "Tomar banho rápido", "Usar mangueira no jardim", "Lavar calçada com água"], correct: 1, explanation: "Banhos curtos (máx. 5 min) podem economizar até 70 litros por banho." },
-  ],
-  13: [
-    { type: "multiple", question: "Qual gás é o principal responsável pelo efeito estufa?", options: ["Oxigênio (O²)", "Nitrogênio (N²)", "Dióxido de Carbono (CO²)", "Hidrogênio (H²)"], correct: 2, explanation: "O CO² emitido pela queima de combustíveis fósseis é o principal causador do aquecimento global." },
-    { type: "truefalse", question: "O Brasil é um dos países mais vulneráveis às mudanças climáticas.", correct: true, explanation: "O Brasil enfrenta riscos de secas, enchentes e perda de biodiversidade por causa das mudanças climáticas." },
-    { type: "multiple", question: "Qual alternativa reduz mais emissões de CO²?", options: ["Andar de carro elétrico", "Usar transporte coletivo", "Andar a pé ou de bicicleta", "Trabalhar em casa"], correct: 2, explanation: "Andar a pé ou de bicicleta tem zero emissão de carbono e ainda melhora a saúde." },
-  ],
+  {
+    type: "multiple",
+    question: "Qual é o principal objetivo do ODS 1 - Erradicação da Pobreza?",
+    options: [
+      "Aumentar a produção industrial mundial",
+      "Acabar com a pobreza em todas as suas formas e lugares",
+      "Garantir energia limpa para todos",
+      "Proteger os oceanos"
+    ],
+    correct: 1,
+    explanation: "O ODS 1 busca eliminar a pobreza extrema e reduzir a pobreza em todas as suas formas."
+  },
+  {
+    type: "truefalse",
+    question: "A pobreza envolve apenas a falta de dinheiro, sem relação com acesso à educação, saúde e moradia.",
+    correct: false,
+    explanation: "A pobreza é multidimensional e envolve também falta de oportunidades, serviços básicos e qualidade de vida."
+  },
+  {
+    type: "multiple",
+    question: "Qual medida contribui diretamente para reduzir a pobreza?",
+    options: [
+      "Diminuir investimentos em educação",
+      "Aumentar desigualdades sociais",
+      "Ampliar acesso à educação e oportunidades de trabalho",
+      "Limitar serviços públicos"
+    ],
+    correct: 2,
+    explanation: "Educação, emprego e acesso a serviços básicos são fundamentais para combater a pobreza."
+  }
+],
+
+2: [
+  {
+    type: "multiple",
+    question: "O ODS 2 tem como principal objetivo combater qual problema mundial?",
+    options: [
+      "A poluição dos oceanos",
+      "A fome e a insegurança alimentar",
+      "A falta de energia elétrica",
+      "O excesso de tecnologia"
+    ],
+    correct: 1,
+    explanation: "O ODS 2 busca acabar com a fome, garantir segurança alimentar e promover agricultura sustentável."
+  },
+  {
+    type: "truefalse",
+    question: "A agricultura sustentável busca produzir alimentos sem destruir os recursos naturais.",
+    correct: true,
+    explanation: "A agricultura sustentável procura equilibrar produção de alimentos, preservação ambiental e uso responsável dos recursos."
+  },
+  {
+    type: "multiple",
+    question: "Qual ação ajuda a combater o desperdício de alimentos?",
+    options: [
+      "Comprar mais alimentos do que o necessário",
+      "Descartar alimentos próximos da validade",
+      "Planejar compras e aproveitar melhor os alimentos",
+      "Evitar qualquer tipo de agricultura"
+    ],
+    correct: 2,
+    explanation: "Planejamento e aproveitamento dos alimentos reduzem desperdícios e ajudam na segurança alimentar."
+  }
+],
+
+3: [
+  {
+    type: "multiple",
+    question: "O ODS 3 busca garantir principalmente:",
+    options: [
+      "Saúde e bem-estar para todas as pessoas",
+      "Construção de novas cidades",
+      "Aumento do consumo mundial",
+      "Expansão industrial"
+    ],
+    correct: 0,
+    explanation: "O ODS 3 tem como objetivo promover vidas saudáveis e bem-estar em todas as idades."
+  },
+  {
+    type: "truefalse",
+    question: "A vacinação é uma das formas mais importantes de prevenção de doenças.",
+    correct: true,
+    explanation: "Vacinas ajudam a proteger indivíduos e comunidades contra diversas doenças."
+  },
+  {
+    type: "multiple",
+    question: "Qual atitude contribui para uma vida mais saudável?",
+    options: [
+      "Ignorar sintomas de doenças",
+      "Manter alimentação equilibrada e praticar atividades físicas",
+      "Evitar consultas médicas preventivas",
+      "Usar medicamentos sem orientação"
+    ],
+    correct: 1,
+    explanation: "Hábitos saudáveis e acompanhamento médico ajudam na prevenção de problemas de saúde."
+  }
+],
+4: [
+  {
+    type: "multiple",
+    question: "Qual é o principal objetivo do ODS 4 - Educação de Qualidade?",
+    options: [
+      "Garantir educação inclusiva, equitativa e de qualidade para todos",
+      "Aumentar apenas o número de escolas particulares",
+      "Substituir professores por tecnologia",
+      "Reduzir o acesso ao ensino superior"
+    ],
+    correct: 0,
+    explanation: "O ODS 4 busca garantir oportunidades de aprendizagem para todas as pessoas durante toda a vida."
+  },
+  {
+    type: "truefalse",
+    question: "A educação de qualidade contribui para reduzir desigualdades sociais e ampliar oportunidades.",
+    correct: true,
+    explanation: "A educação ajuda no desenvolvimento pessoal, profissional e social, diminuindo diferenças entre grupos."
+  },
+  {
+    type: "multiple",
+    question: "Qual atitude ajuda a melhorar a qualidade da educação?",
+    options: [
+      "Diminuir investimentos em escolas",
+      "Garantir formação adequada para professores",
+      "Impedir o uso de novas tecnologias",
+      "Reduzir o acesso dos estudantes"
+    ],
+    correct: 1,
+    explanation: "Professores preparados e boas condições de ensino são fundamentais para uma educação de qualidade."
+  }
+],
+
+5: [
+  {
+    type: "multiple",
+    question: "Qual é o principal objetivo do ODS 5 - Igualdade de Gênero?",
+    options: [
+      "Garantir igualdade de direitos e oportunidades entre gêneros",
+      "Criar diferenças maiores entre homens e mulheres",
+      "Eliminar a participação feminina na sociedade",
+      "Diminuir o acesso à educação"
+    ],
+    correct: 0,
+    explanation: "O ODS 5 busca alcançar a igualdade de gênero e fortalecer a autonomia de mulheres e meninas."
+  },
+  {
+    type: "truefalse",
+    question: "Garantir que meninas e mulheres tenham acesso à educação é uma ação relacionada ao ODS 5.",
+    correct: true,
+    explanation: "A igualdade de acesso à educação é essencial para ampliar oportunidades e combater desigualdades."
+  },
+  {
+    type: "multiple",
+    question: "Qual situação representa uma desigualdade de gênero?",
+    options: [
+      "Todas as pessoas recebem as mesmas oportunidades",
+      "Mulheres e homens têm os mesmos direitos",
+      "Uma pessoa é impedida de estudar ou trabalhar por causa do gênero",
+      "Empresas promovem igualdade salarial"
+    ],
+    correct: 2,
+    explanation: "Impedir oportunidades com base no gênero é uma forma de desigualdade."
+  }
+],
+
+6: [
+  {
+    type: "multiple",
+    question: "Qual é o objetivo principal do ODS 6 - Água Potável e Saneamento?",
+    options: [
+      "Garantir acesso à água potável e saneamento para todos",
+      "Aumentar o consumo de água sem controle",
+      "Eliminar rios e lagos",
+      "Usar água apenas na indústria"
+    ],
+    correct: 0,
+    explanation: "O ODS 6 busca garantir disponibilidade e gestão sustentável da água e saneamento básico."
+  },
+  {
+    type: "truefalse",
+    question: "O tratamento de esgoto ajuda a proteger a saúde das pessoas e o meio ambiente.",
+    correct: true,
+    explanation: "O saneamento adequado reduz doenças e evita a contaminação de rios e fontes de água."
+  },
+  {
+    type: "multiple",
+    question: "Qual atitude contribui para o uso sustentável da água?",
+    options: [
+      "Deixar torneiras abertas sem necessidade",
+      "Desperdiçar água potável",
+      "Reutilizar água quando possível e evitar desperdícios",
+      "Jogar lixo em rios"
+    ],
+    correct: 2,
+    explanation: "O uso consciente da água ajuda a preservar esse recurso essencial para as futuras gerações."
+  }
+],
+7: [
+  {
+    type: "multiple",
+    question: "Qual é o principal objetivo do ODS 7 - Energia Limpa e Acessível?",
+    options: [
+      "Garantir acesso a energia sustentável e confiável para todos",
+      "Aumentar o uso de combustíveis poluentes",
+      "Impedir o desenvolvimento de novas tecnologias",
+      "Eliminar todas as fontes de energia"
+    ],
+    correct: 0,
+    explanation: "O ODS 7 busca ampliar o acesso à energia limpa, renovável e eficiente."
+  },
+  {
+    type: "truefalse",
+    question: "Fontes de energia renovável, como solar e eólica, podem ajudar a reduzir impactos ambientais.",
+    correct: true,
+    explanation: "Energias renováveis emitem menos gases de efeito estufa e ajudam na transição energética."
+  },
+  {
+    type: "multiple",
+    question: "Qual fonte de energia é considerada renovável?",
+    options: [
+      "Carvão mineral",
+      "Petróleo",
+      "Energia solar",
+      "Gás natural"
+    ],
+    correct: 2,
+    explanation: "A energia solar é renovável porque utiliza a luz do Sol, um recurso naturalmente disponível."
+  }
+],
+
+8: [
+  {
+    type: "multiple",
+    question: "O ODS 8 busca promover principalmente:",
+    options: [
+      "Trabalho decente e crescimento econômico sustentável",
+      "Apenas aumento do consumo",
+      "Redução de empregos",
+      "Fim das atividades econômicas"
+    ],
+    correct: 0,
+    explanation: "O ODS 8 incentiva empregos dignos, direitos trabalhistas e crescimento econômico inclusivo."
+  },
+  {
+    type: "truefalse",
+    question: "Trabalho decente envolve condições seguras, direitos trabalhistas e respeito aos trabalhadores.",
+    correct: true,
+    explanation: "O trabalho decente garante dignidade, segurança e oportunidades para os trabalhadores."
+  },
+  {
+    type: "multiple",
+    question: "Qual situação está de acordo com o ODS 8?",
+    options: [
+      "Trabalhadores sem direitos",
+      "Ambientes de trabalho inseguros",
+      "Empregos com proteção e condições adequadas",
+      "Exploração de mão de obra"
+    ],
+    correct: 2,
+    explanation: "O ODS 8 defende empregos produtivos, seguros e com respeito aos direitos humanos."
+  }
+],
+
+9: [
+  {
+    type: "multiple",
+    question: "Qual é o foco principal do ODS 9 - Indústria, Inovação e Infraestrutura?",
+    options: [
+      "Construir infraestruturas resilientes e incentivar inovação",
+      "Diminuir todo desenvolvimento tecnológico",
+      "Evitar novas descobertas científicas",
+      "Acabar com a indústria"
+    ],
+    correct: 0,
+    explanation: "O ODS 9 busca promover infraestrutura sustentável, industrialização inclusiva e inovação."
+  },
+  {
+    type: "truefalse",
+    question: "A inovação tecnológica pode ajudar a criar soluções para problemas sociais e ambientais.",
+    correct: true,
+    explanation: "Novas tecnologias podem melhorar transportes, energia, saúde e comunicação."
+  },
+  {
+    type: "multiple",
+    question: "Qual exemplo representa uma infraestrutura sustentável?",
+    options: [
+      "Transportes públicos eficientes",
+      "Construções sem planejamento",
+      "Desperdício de recursos",
+      "Uso excessivo de materiais poluentes"
+    ],
+    correct: 0,
+    explanation: "Infraestruturas sustentáveis melhoram a qualidade de vida reduzindo impactos ambientais."
+  }
+],
+
+10: [
+  {
+    type: "multiple",
+    question: "Qual é o objetivo do ODS 10 - Redução das Desigualdades?",
+    options: [
+      "Diminuir desigualdades dentro dos países e entre eles",
+      "Aumentar diferenças sociais",
+      "Limitar oportunidades",
+      "Reduzir direitos"
+    ],
+    correct: 0,
+    explanation: "O ODS 10 busca promover inclusão social, econômica e política para todos."
+  },
+  {
+    type: "truefalse",
+    question: "A desigualdade pode estar relacionada ao acesso diferente a educação, saúde e oportunidades.",
+    correct: true,
+    explanation: "Diferenças no acesso a recursos e direitos podem gerar desigualdades sociais."
+  },
+  {
+    type: "multiple",
+    question: "Qual ação ajuda a reduzir desigualdades?",
+    options: [
+      "Garantir acesso igualitário a oportunidades",
+      "Impedir grupos de participarem da sociedade",
+      "Aumentar preconceitos",
+      "Reduzir investimentos sociais"
+    ],
+    correct: 0,
+    explanation: "Políticas de inclusão e igualdade de oportunidades ajudam a diminuir desigualdades."
+  }
+],
+
+11: [
+  {
+    type: "multiple",
+    question: "O ODS 11 tem como objetivo tornar as cidades:",
+    options: [
+      "Mais inclusivas, seguras, resilientes e sustentáveis",
+      "Mais poluídas",
+      "Menos acessíveis",
+      "Sem planejamento"
+    ],
+    correct: 0,
+    explanation: "O ODS 11 busca melhorar a qualidade de vida nas cidades."
+  },
+  {
+    type: "truefalse",
+    question: "O planejamento urbano pode ajudar a reduzir problemas como trânsito e falta de áreas verdes.",
+    correct: true,
+    explanation: "Cidades planejadas conseguem oferecer melhores serviços e qualidade de vida."
+  },
+  {
+    type: "multiple",
+    question: "Qual exemplo contribui para uma cidade sustentável?",
+    options: [
+      "Mais áreas verdes e transporte público eficiente",
+      "Aumento do desperdício",
+      "Destruição de espaços naturais",
+      "Falta de planejamento urbano"
+    ],
+    correct: 0,
+    explanation: "Áreas verdes e mobilidade sustentável tornam as cidades mais equilibradas."
+  }
+],
+
+12: [
+  {
+    type: "multiple",
+    question: "Qual é o principal objetivo do ODS 12 - Consumo e Produção Responsáveis?",
+    options: [
+      "Garantir padrões sustentáveis de consumo e produção",
+      "Estimular o desperdício",
+      "Aumentar a produção sem limites",
+      "Ignorar impactos ambientais"
+    ],
+    correct: 0,
+    explanation: "O ODS 12 busca usar recursos naturais de forma eficiente e reduzir desperdícios."
+  },
+  {
+    type: "truefalse",
+    question: "Reciclagem e reutilização de materiais ajudam a diminuir impactos ambientais.",
+    correct: true,
+    explanation: "Essas práticas reduzem a quantidade de resíduos e economizam recursos naturais."
+  },
+  {
+    type: "multiple",
+    question: "Qual atitude representa consumo consciente?",
+    options: [
+      "Comprar apenas o necessário e evitar desperdícios",
+      "Descartar produtos ainda úteis",
+      "Comprar sem planejamento",
+      "Desperdiçar água e energia"
+    ],
+    correct: 0,
+    explanation: "O consumo consciente envolve escolhas responsáveis considerando impactos ambientais e sociais."
+  }
+],
+13: [
+  {
+    type: "multiple",
+    question: "Qual é o principal objetivo do ODS 13 - Ação Contra a Mudança do Clima?",
+    options: [
+      "Tomar medidas urgentes para combater as mudanças climáticas",
+      "Aumentar a emissão de gases poluentes",
+      "Reduzir pesquisas ambientais",
+      "Eliminar fontes de energia renovável"
+    ],
+    correct: 0,
+    explanation: "O ODS 13 busca combater as mudanças climáticas e seus impactos por meio de ações globais."
+  },
+  {
+    type: "truefalse",
+    question: "O desmatamento contribui para o aumento das mudanças climáticas.",
+    correct: true,
+    explanation: "As florestas armazenam carbono, e sua destruição aumenta a quantidade de gases de efeito estufa na atmosfera."
+  },
+  {
+    type: "multiple",
+    question: "Qual atitude ajuda a reduzir a emissão de gases de efeito estufa?",
+    options: [
+      "Usar transporte coletivo e energias renováveis",
+      "Aumentar o consumo de combustíveis fósseis",
+      "Desperdiçar energia",
+      "Destruir áreas verdes"
+    ],
+    correct: 0,
+    explanation: "Transportes sustentáveis e energias limpas ajudam a diminuir a emissão de carbono."
+  }
+],
+
+14: [
+  {
+    type: "multiple",
+    question: "Qual é o objetivo principal do ODS 14 - Vida na Água?",
+    options: [
+      "Conservar e utilizar de forma sustentável os oceanos e mares",
+      "Aumentar a poluição dos oceanos",
+      "Eliminar espécies marinhas",
+      "Explorar recursos sem limites"
+    ],
+    correct: 0,
+    explanation: "O ODS 14 busca proteger os ecossistemas marinhos e preservar a biodiversidade dos oceanos."
+  },
+  {
+    type: "truefalse",
+    question: "O descarte incorreto de plástico pode prejudicar animais marinhos.",
+    correct: true,
+    explanation: "Plásticos nos oceanos podem causar danos aos animais e desequilibrar ecossistemas."
+  },
+  {
+    type: "multiple",
+    question: "Qual ação ajuda a proteger a vida marinha?",
+    options: [
+      "Reduzir o uso de plásticos descartáveis",
+      "Jogar lixo em rios",
+      "Aumentar a pesca ilegal",
+      "Destruir habitats marinhos"
+    ],
+    correct: 0,
+    explanation: "Reduzir resíduos e proteger áreas marinhas ajuda na conservação dos oceanos."
+  }
+],
+
+15: [
+  {
+    type: "multiple",
+    question: "Qual é o foco principal do ODS 15 - Vida Terrestre?",
+    options: [
+      "Proteger ecossistemas terrestres e biodiversidade",
+      "Aumentar o desmatamento",
+      "Eliminar áreas naturais",
+      "Reduzir espécies existentes"
+    ],
+    correct: 0,
+    explanation: "O ODS 15 busca preservar florestas, combater a degradação do solo e proteger espécies."
+  },
+  {
+    type: "truefalse",
+    question: "A biodiversidade é importante porque mantém o equilíbrio dos ecossistemas.",
+    correct: true,
+    explanation: "Diversas espécies contribuem para o funcionamento saudável dos ambientes naturais."
+  },
+  {
+    type: "multiple",
+    question: "Qual atitude ajuda a preservar a vida terrestre?",
+    options: [
+      "Combater o desmatamento e proteger áreas naturais",
+      "Destruir habitats de animais",
+      "Aumentar a caça ilegal",
+      "Poluir o solo"
+    ],
+    correct: 0,
+    explanation: "A preservação dos habitats é essencial para proteger espécies e recursos naturais."
+  }
+],
+
+16: [
+  {
+    type: "multiple",
+    question: "O ODS 16 busca promover principalmente:",
+    options: [
+      "Paz, justiça e instituições eficazes",
+      "Conflitos entre países",
+      "Aumento da corrupção",
+      "Redução dos direitos humanos"
+    ],
+    correct: 0,
+    explanation: "O ODS 16 promove sociedades pacíficas, acesso à justiça e instituições responsáveis."
+  },
+  {
+    type: "truefalse",
+    question: "O combate à corrupção contribui para instituições mais justas e eficientes.",
+    correct: true,
+    explanation: "Instituições transparentes fortalecem a confiança da população e o desenvolvimento sustentável."
+  },
+  {
+    type: "multiple",
+    question: "Qual atitude está relacionada ao ODS 16?",
+    options: [
+      "Respeitar direitos humanos e promover justiça",
+      "Impedir participação social",
+      "Aumentar violência",
+      "Diminuir transparência"
+    ],
+    correct: 0,
+    explanation: "O ODS 16 defende sociedades inclusivas, pacíficas e baseadas em direitos."
+  }
+],
+
+17: [
+  {
+    type: "multiple",
+    question: "Qual é o principal objetivo do ODS 17 - Parcerias e Meios de Implementação?",
+    options: [
+      "Fortalecer parcerias globais para alcançar o desenvolvimento sustentável",
+      "Separar países e impedir cooperação",
+      "Reduzir comunicação internacional",
+      "Eliminar projetos conjuntos"
+    ],
+    correct: 0,
+    explanation: "O ODS 17 reconhece que a cooperação entre países, organizações e pessoas é essencial."
+  },
+  {
+    type: "truefalse",
+    question: "A colaboração entre governos, empresas e sociedade pode ajudar a alcançar os ODS.",
+    correct: true,
+    explanation: "Parcerias unem conhecimentos e recursos para solucionar desafios globais."
+  },
+  {
+    type: "multiple",
+    question: "Qual exemplo representa uma parceria sustentável?",
+    options: [
+      "Organizações trabalhando juntas para resolver problemas ambientais",
+      "Países recusando qualquer cooperação",
+      "Empresas ignorando impactos sociais",
+      "Grupos impedindo projetos sustentáveis"
+    ],
+    correct: 0,
+    explanation: "A cooperação entre diferentes setores aumenta as chances de alcançar metas sustentáveis."
+  }
+]
 };
 
 // ─── Achievements ─────────────────────────────────────────────────────────────
