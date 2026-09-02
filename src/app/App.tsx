@@ -426,8 +426,20 @@ const QUIZZES: Record<number, { type: string; question: string; options?: string
 const ACHIEVEMENTS = [
   { id: "first_mission", name: "Primeira Missão", desc: "Completou sua primeira missão da ODS 11", emoji: "🚀", color: "#4ade80" },
   { id: "eco_warrior", name: "Guerreiro Urbano", desc: "Completou 5 missões da ODS 11", emoji: "🏙️", color: "#56C02B" },
-  { id: "water_saver", name: "Guardião do Saneamento", desc: "Completou a missão Saneamento Básico com 3 estrelas", emoji: "💧", color: "#26BDE2" },
-  { id: "climate_hero", name: "Herói da Resiliência", desc: "Completou a missão Resiliência Climática com pontuação máxima", emoji: "🌍", color: "#3F7E44" },
+  {
+  id: "water_saver",
+  name: "Guardião da Resiliência",
+  desc: "Completou a missão Cidades Resilientes com 3 estrelas",
+  emoji: "🌊",
+  color: "#26BDE2"
+},
+ {
+  id: "climate_hero",
+  name: "Herói da Sustentabilidade",
+  desc: "Completou a missão Cidades Sustentáveis com pontuação máxima",
+  emoji: "🌍",
+  color: "#3F7E44"
+},
   { id: "quiz_master", name: "Mestre do Quiz", desc: "Acertou 10 questões seguidas", emoji: "🧠", color: "#fbbf24" },
   { id: "perfect_score", name: "Pontuação Perfeita", desc: "Conseguiu 100% em qualquer missão da ODS 11", emoji: "⭐", color: "#FD6925" },
   { id: "global_citizen", name: "Cidadão da Cidade", desc: "Completou todas as 9 missões da ODS 11", emoji: "🌐", color: "#19486A" },
@@ -640,7 +652,7 @@ function PhasesScreen({ onNav, onSelectSDG, completedPhases, stars }: { onNav: (
           <BackBtn onClick={() => onNav("home")} />
           <h2 className="text-3xl font-black mt-2" style={{ fontFamily: "Fredoka One, sans-serif", color: "#f0f7ff" }}>Escolha sua Missão</h2>
           <p className="text-white/60 text-sm mt-1" style={{ fontFamily: "Nunito, sans-serif" }}>{completedPhases.length}/9 missões concluídas · {totalXP} XP conquistados</p>
-          <div className="mt-3"><ProgressBar value={completedPhases.length} max={17} color="#4ade80" height={10} /></div>
+          <div className="mt-3"><ProgressBar value={completedPhases.length} max={9} color="#4ade80" height={10} /></div>
         </div>
 
         {/* Filters */}
@@ -745,7 +757,15 @@ function MissionScreen({ sdgId, onNav, onStart }: { sdgId: number; onNav: (s: Sc
   );
 }
 
-function QuizScreen({ sdgId, onFinish }: { sdgId: number; onFinish: (score: number, total: number) => void }) {
+function QuizScreen({
+  sdgId,
+  onFinish,
+  onAnswer
+}: {
+  sdgId: number;
+  onFinish: (score: number, total: number) => void;
+  onAnswer: (correct: boolean) => void;
+}) {
   const sdg = SDGs.find(s => s.id === sdgId)!;
   const questions = QUIZZES[sdgId] ?? QUIZZES[1];
   const [qIndex, setQIndex] = useState(0);
@@ -763,10 +783,12 @@ function QuizScreen({ sdgId, onFinish }: { sdgId: number; onFinish: (score: numb
     setSelected(val);
     setShowFeedback(true);
     const correct = val === q.correct;
-    if (correct) {
-      setScore(s => s + 1);
-      setStreak(s => s + 1);
-    } else {
+   onAnswer(correct);
+
+if (correct) {
+  setScore(s => s + 1);
+  setStreak(s => s + 1);
+} else {
       setShake(true);
       setStreak(0);
       setTimeout(() => setShake(false), 600);
@@ -775,7 +797,7 @@ function QuizScreen({ sdgId, onFinish }: { sdgId: number; onFinish: (score: numb
 
   function handleNext() {
     if (qIndex + 1 >= questions.length) {
-      onFinish(score + (isCorrect ? 1 : 0), questions.length);
+      onFinish(score, questions.length);
     } else {
       setQIndex(i => i + 1);
       setSelected(null);
@@ -1101,6 +1123,33 @@ export default function App() {
   const [stars, setStars] = useState<Record<number, number>>({});
   const [quizScore, setQuizScore] = useState({ score: 0, total: 0 });
   const [unlockedAchievements, setUnlockedAchievements] = useState<string[]>([]);
+  const [quizStreak, setQuizStreak] = useState(0);
+  const [missionStartTime, setMissionStartTime] = useState<number | null>(null);
+  useEffect(() => {
+  const saved = localStorage.getItem("missao-ods-save");
+
+  if (saved) {
+    const data = JSON.parse(saved);
+
+    setXP(data.xp ?? 0);
+    setCoins(data.coins ?? 0);
+    setCompletedPhases(data.completedPhases ?? []);
+    setStars(data.stars ?? {});
+    setUnlockedAchievements(data.unlockedAchievements ?? []);
+  }
+}, []);
+useEffect(() => {
+  localStorage.setItem(
+    "missao-ods-save",
+    JSON.stringify({
+      xp,
+      coins,
+      completedPhases,
+      stars,
+      unlockedAchievements,
+    })
+  );
+}, [xp, coins, completedPhases, stars, unlockedAchievements]);
 
   const level = Math.floor(xp / 500) + 1;
 
@@ -1110,25 +1159,87 @@ export default function App() {
   }
 
   function handleStartMission() {
-    handleNav("quiz");
-  }
+  setMissionStartTime(Date.now());
+  handleNav("quiz");
+}
 
   function handleQuizFinish(score: number, total: number) {
-    setQuizScore({ score, total });
-    handleNav("result");
-  }
+  setQuizScore({ score, total });
+  handleNav("result");
+}
+
+function handleQuizAnswer(correct: boolean) {
+  setQuizStreak(streak => {
+    const newStreak = correct ? streak + 1 : 0;
+
+    if (newStreak >= 10) {
+      setUnlockedAchievements(a => [
+        ...new Set([...a, "quiz_master"])
+      ]);
+    }
+
+    return newStreak;
+  });
+}
+  
 
   function handleEarned(earnedXP: number, earnedCoins: number, earnedStars: number) {
-    setXP(x => x + earnedXP);
-    setCoins(c => c + earnedCoins);
-    setStars(s => ({ ...s, [selectedSDG]: earnedStars }));
-    if (!completedPhases.includes(selectedSDG)) {
-      setCompletedPhases(p => [...p, selectedSDG]);
-      if (unlockedAchievements.length === 0) setUnlockedAchievements(["first_mission"]);
-      if (selectedSDG === 6) setUnlockedAchievements(a => [...new Set([...a, "water_saver"])]);
-      if (selectedSDG === 13) setUnlockedAchievements(a => [...new Set([...a, "climate_hero"])]);
-    }
+    const missionTime = missionStartTime
+  ? (Date.now() - missionStartTime) / 1000
+  : null;
+  setXP(x => x + earnedXP);
+  setCoins(c => c + earnedCoins);
+  setStars(s => ({ ...s, [selectedSDG]: earnedStars }));
+
+  if (!completedPhases.includes(selectedSDG)) {
+    setCompletedPhases(p => [...p, selectedSDG]);
   }
+
+  setUnlockedAchievements(a => {
+    const updated = new Set(a);
+
+    const totalCompleted = completedPhases.includes(selectedSDG)
+      ? completedPhases.length
+      : completedPhases.length + 1;
+
+    // Primeira missão
+    if (totalCompleted >= 1) {
+      updated.add("first_mission");
+    }
+
+    // 5 missões concluídas
+    if (totalCompleted >= 5) {
+      updated.add("eco_warrior");
+    }
+
+    // 9 missões concluídas
+    if (totalCompleted >= 9) {
+      updated.add("global_citizen");
+    }
+    
+// Cidades Resilientes (missão ID 6) com 3 estrelas
+if (selectedSDG === 6 && earnedStars === 3) {
+  updated.add("water_saver");
+}
+
+   // Cidades Sustentáveis (missão ID 9) com pontuação máxima
+if (selectedSDG === 9 && earnedStars === 3) {
+  updated.add("climate_hero");
+}
+
+// 100% em qualquer missão
+if (earnedStars === 3) {
+  updated.add("perfect_score");
+}
+
+// Menos de 2 minutos
+if (missionTime !== null && missionTime < 120) {
+  updated.add("speed_runner");
+}
+
+    return [...updated];
+  });
+}
 
   return (
     <div style={{ fontFamily: "Nunito, sans-serif" }}>
@@ -1154,8 +1265,12 @@ export default function App() {
         <MissionScreen sdgId={selectedSDG} onNav={handleNav} onStart={handleStartMission} />
       )}
       {screen === "quiz" && (
-        <QuizScreen sdgId={selectedSDG} onFinish={handleQuizFinish} />
-      )}
+  <QuizScreen
+    sdgId={selectedSDG}
+    onFinish={handleQuizFinish}
+    onAnswer={handleQuizAnswer}
+  />
+)}
       {screen === "result" && (
         <ResultScreen sdgId={selectedSDG} score={quizScore.score} total={quizScore.total} onNav={handleNav} onEarned={handleEarned} />
       )}
