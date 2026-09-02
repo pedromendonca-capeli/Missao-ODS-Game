@@ -1,601 +1,440 @@
 import { useState, useEffect, useRef } from "react";
 
 // ─── SDG Data ────────────────────────────────────────────────────────────────
-const SDGs
- = [
-  { id: 1, name: "Erradicação da Pobreza", color: "#E5243B", emoji: "🏠", icon: "👐", desc: "Acabar com a pobreza em todas as suas formas, em todos os lugares.", goal: "Identificar causas e soluções para a pobreza extrema.", xp: 100 },
-  { id: 2, name: "Fome Zero", color: "#DDA63A", emoji: "🌾", icon: "🍽️", desc: "Acabar com a fome, alcançar a segurança alimentar e melhoria da nutrição.", goal: "Explorar formas de garantir alimentação segura e sustentável.", xp: 100 },
-  { id: 3, name: "Saúde e Bem-Estar", color: "#4C9F38", emoji: "💚", icon: "🏥", desc: "Assegurar uma vida saudável e promover o bem-estar para todos.", goal: "Aprender sobre acesso universal à saúde e prevenção de doenças.", xp: 110 },
-  { id: 4, name: "Educação de Qualidade", color: "#C5192D", emoji: "📚", icon: "🎓", desc: "Assegurar educação inclusiva e equitativa de qualidade.", goal: "Descobrir como a educação transforma comunidades.", xp: 110 },
-  { id: 5, name: "Igualdade de Gênero", color: "#FF3A21", emoji: "⚡", icon: "♀️", desc: "Alcançar igualdade de gênero e empoderar mulheres e meninas.", goal: "Refletir sobre equidade e representatividade.", xp: 110 },
-  { id: 6, name: "Água Potável e Saneamento", color: "#26BDE2", emoji: "💧", icon: "🚿", desc: "Garantir disponibilidade e manejo sustentável da água e saneamento.", goal: "Missão de economia de água e saneamento básico.", xp: 120 },
-  { id: 7, name: "Energia Limpa e Acessível", color: "#FCC30B", emoji: "⚡", icon: "☀️", desc: "Assegurar acesso confiável, sustentável e moderno à energia.", goal: "Simular escolhas de fontes de energia renovável.", xp: 120 },
-  { id: 8, name: "Trabalho Decente", color: "#A21942", emoji: "💼", icon: "🤝", desc: "Promover crescimento econômico sustentado, inclusivo e sustentável.", goal: "Entender direitos trabalhistas e empregos do futuro.", xp: 120 },
-  { id: 9, name: "Indústria e Inovação", color: "#FD6925", emoji: "🏗️", icon: "🔧", desc: "Construir infraestruturas resilientes e promover a inovação.", goal: "Projetar soluções inovadoras para desafios sociais.", xp: 130 },
-  { id: 10, name: "Redução das Desigualdades", color: "#DD1367", emoji: "⚖️", icon: "🌐", desc: "Reduzir a desigualdade dentro dos países e entre eles.", goal: "Analisar disparidades e propor políticas inclusivas.", xp: 130 },
-  { id: 11, name: "Cidades Sustentáveis", color: "#FD9D24", emoji: "🏙️", icon: "🌆", desc: "Tornar cidades e assentamentos humanos inclusivos e sustentáveis.", goal: "Planejar uma cidade sustentável do futuro.", xp: 130 },
-  { id: 12, name: "Consumo Responsável", color: "#BF8B2E", emoji: "♻️", icon: "🛍️", desc: "Assegurar padrões de produção e consumo sustentáveis.", goal: "Jogar o minijogo de reciclagem e consumo consciente.", xp: 140 },
-  { id: 13, name: "Ação Contra a Mudança do Clima", color: "#3F7E44", emoji: "🌍", icon: "🌡️", desc: "Tomar medidas urgentes para combater a mudança do clima.", goal: "Tomar decisões que reduzam emissões de carbono.", xp: 140 },
-  { id: 14, name: "Vida na Água", color: "#0A97D9", emoji: "🌊", icon: "🐟", desc: "Conservar e usar sustentavelmente os oceanos e mares.", goal: "Proteger ecossistemas marinhos de ameaças humanas.", xp: 140 },
-  { id: 15, name: "Vida Terrestre", color: "#56C02B", emoji: "🌿", icon: "🦁", desc: "Proteger, recuperar e promover o uso sustentável dos ecossistemas.", goal: "Combater o desmatamento e preservar a biodiversidade.", xp: 150 },
-  { id: 16, name: "Paz, Justiça e Instituições", color: "#00689D", emoji: "🕊️", icon: "⚖️", desc: "Promover sociedades pacíficas e inclusivas para o desenvolvimento sustentável.", goal: "Construir sistemas justos e democráticos.", xp: 150 },
-  { id: 17, name: "Parcerias e Meios de Implementação", color: "#19486A", emoji: "🤝", icon: "🌐", desc: "Fortalecer meios de implementação e revitalizar a parceria global.", goal: "Criar alianças globais para os objetivos sustentáveis.", xp: 160 },
-];
+const SDGs = [
+  {
+    id: 1,
+    name: "Moradia Digna",
+    color: "#FD9D24",
+    emoji: "🏘️",
+    icon: "🏠",
+    desc: "Promover moradias seguras, adequadas e acessíveis para todos.",
+    goal: "Entender a importância da moradia digna para cidades sustentáveis.",
+    xp: 100
+  },
 
+  {
+    id: 2,
+    name: "Mobilidade Urbana",
+    color: "#FD9D24",
+    emoji: "🚌",
+    icon: "🚲",
+    desc: "Promover formas de transporte acessíveis, seguras e sustentáveis.",
+    goal: "Descobrir como melhorar os deslocamentos dentro das cidades.",
+    xp: 110
+  },
+
+  {
+    id: 3,
+    name: "Áreas Verdes",
+    color: "#FD9D24",
+    emoji: "🌳",
+    icon: "🌿",
+    desc: "Valorizar parques, praças e áreas verdes para melhorar a vida urbana.",
+    goal: "Entender a importância da natureza dentro das cidades.",
+    xp: 110
+  },
+
+  {
+    id: 4,
+    name: "Resíduos e Limpeza Urbana",
+    color: "#FD9D24",
+    emoji: "♻️",
+    icon: "🗑️",
+    desc: "Promover uma gestão adequada dos resíduos e a limpeza das cidades.",
+    goal: "Aprender como reduzir, reutilizar e reciclar resíduos urbanos.",
+    xp: 120
+  },
+
+  {
+    id: 5,
+    name: "Patrimônio e Cultura",
+    color: "#FD9D24",
+    emoji: "🏛️",
+    icon: "🎨",
+    desc: "Preservar o patrimônio histórico, cultural e a identidade das comunidades.",
+    goal: "Descobrir por que preservar a história é importante para as cidades.",
+    xp: 120
+  },
+
+  {
+    id: 6,
+    name: "Cidades Resilientes",
+    color: "#FD9D24",
+    emoji: "🌊",
+    icon: "🛡️",
+    desc: "Preparar as cidades para enfrentar desastres e situações de risco.",
+    goal: "Aprender como o planejamento pode tornar as cidades mais preparadas.",
+    xp: 130
+  },
+
+  {
+    id: 7,
+    name: "Planejamento Urbano",
+    color: "#FD9D24",
+    emoji: "🏗️",
+    icon: "🗺️",
+    desc: "Planejar o crescimento das cidades de forma organizada e sustentável.",
+    goal: "Entender como o planejamento influencia a qualidade de vida urbana.",
+    xp: 130
+  },
+
+  {
+    id: 8,
+    name: "Inclusão Urbana",
+    color: "#FD9D24",
+    emoji: "🤝",
+    icon: "♿",
+    desc: "Construir cidades acessíveis e inclusivas para diferentes pessoas.",
+    goal: "Compreender a importância da acessibilidade e da inclusão nas cidades.",
+    xp: 140
+  },
+
+  {
+    id: 9,
+    name: "Cidades Sustentáveis",
+    color: "#FD9D24",
+    emoji: "🌍",
+    icon: "🏙️",
+    desc: "Construir cidades inclusivas, seguras, resilientes e sustentáveis.",
+    goal: "Reunir conhecimentos para compreender os principais desafios da ODS 11.",
+    xp: 150
+  },
+];
 // ─── Quiz Data ────────────────────────────────────────────────────────────────
 
 const QUIZZES: Record<number, { type: string; question: string; options?: string[]; correct: number | boolean; explanation: string }[]> = {
   1: [
   {
     type: "multiple",
-    question: "Qual é o principal objetivo do ODS 1 - Erradicação da Pobreza?",
+    question: "O que uma moradia adequada deve oferecer aos seus moradores?",
     options: [
-      "Aumentar a produção industrial mundial",
-      "Acabar com a pobreza em todas as suas formas e lugares",
-      "Garantir energia limpa para todos",
-      "Proteger os oceanos"
+      "Apenas um espaço para dormir",
+      "Segurança, condições adequadas e acesso a serviços básicos",
+      "Apenas uma localização central",
+      "Um espaço grande, independentemente das condições"
     ],
     correct: 1,
-    explanation: "O ODS 1 busca eliminar a pobreza extrema e reduzir a pobreza em todas as suas formas."
+    explanation: "Uma moradia digna não significa apenas ter um teto. Ela deve oferecer segurança, condições adequadas de vida e acesso a serviços básicos, como água, saneamento e energia."
   },
+
   {
     type: "truefalse",
-    question: "A pobreza envolve apenas a falta de dinheiro, sem relação com acesso à educação, saúde e moradia.",
+    question: "Uma moradia adequada envolve apenas ter um espaço para morar, sem relação com serviços básicos.",
     correct: false,
-    explanation: "A pobreza é multidimensional e envolve também falta de oportunidades, serviços básicos e qualidade de vida."
+    explanation: "Moradia adequada também está relacionada ao acesso a serviços básicos, segurança, infraestrutura e condições dignas de vida."
   },
+
   {
     type: "multiple",
-    question: "Qual medida contribui diretamente para reduzir a pobreza?",
+    question: "Por que a ODS 11 busca ampliar o acesso à moradia adequada?",
     options: [
-      "Diminuir investimentos em educação",
-      "Aumentar desigualdades sociais",
-      "Ampliar acesso à educação e oportunidades de trabalho",
-      "Limitar serviços públicos"
+      "Para aumentar a quantidade de prédios nas cidades",
+      "Para garantir cidades mais inclusivas e com melhor qualidade de vida",
+      "Para incentivar a construção de casas cada vez maiores",
+      "Para concentrar a população nas regiões centrais"
     ],
-    correct: 2,
-    explanation: "Educação, emprego e acesso a serviços básicos são fundamentais para combater a pobreza."
+    correct: 1,
+    explanation: "A ODS 11 busca tornar as cidades inclusivas, seguras, resilientes e sustentáveis, e o acesso à moradia adequada é uma parte importante desse objetivo."
   }
 ],
 
 2: [
   {
     type: "multiple",
-    question: "O ODS 2 tem como principal objetivo combater qual problema mundial?",
+    question: "Qual medida pode contribuir para uma mobilidade urbana mais sustentável?",
     options: [
-      "A poluição dos oceanos",
-      "A fome e a insegurança alimentar",
-      "A falta de energia elétrica",
-      "O excesso de tecnologia"
+      "Aumentar o número de carros particulares",
+      "Investir em transporte público de qualidade",
+      "Construir mais estacionamentos no centro",
+      "Reduzir as ciclovias"
     ],
     correct: 1,
-    explanation: "O ODS 2 busca acabar com a fome, garantir segurança alimentar e promover agricultura sustentável."
+    explanation: "Um transporte público eficiente pode transportar muitas pessoas utilizando menos espaço nas ruas e ajudando a diminuir congestionamentos e impactos ambientais."
   },
+
   {
     type: "truefalse",
-    question: "A agricultura sustentável busca produzir alimentos sem destruir os recursos naturais.",
+    question: "As bicicletas podem contribuir para uma mobilidade urbana mais sustentável.",
     correct: true,
-    explanation: "A agricultura sustentável procura equilibrar produção de alimentos, preservação ambiental e uso responsável dos recursos."
+    explanation: "Bicicletas não emitem gases diretamente durante seu uso e ocupam pouco espaço urbano, podendo ser uma alternativa para deslocamentos de curta e média distância."
   },
+
   {
     type: "multiple",
-    question: "Qual ação ajuda a combater o desperdício de alimentos?",
+    question: "O que significa tornar a mobilidade urbana mais acessível?",
     options: [
-      "Comprar mais alimentos do que o necessário",
-      "Descartar alimentos próximos da validade",
-      "Planejar compras e aproveitar melhor os alimentos",
-      "Evitar qualquer tipo de agricultura"
+      "Facilitar o deslocamento apenas para quem possui carro",
+      "Criar condições para que diferentes pessoas possam se deslocar pela cidade",
+      "Construir estradas maiores exclusivamente para veículos",
+      "Diminuir o número de calçadas"
     ],
-    correct: 2,
-    explanation: "Planejamento e aproveitamento dos alimentos reduzem desperdícios e ajudam na segurança alimentar."
+    correct: 1,
+    explanation: "Uma cidade acessível deve considerar diferentes necessidades, incluindo pessoas com deficiência, idosos e pessoas com mobilidade reduzida."
   }
 ],
 
 3: [
   {
     type: "multiple",
-    question: "O ODS 3 busca garantir principalmente:",
+    question: "Qual é uma das funções das árvores nas cidades?",
     options: [
-      "Saúde e bem-estar para todas as pessoas",
-      "Construção de novas cidades",
-      "Aumento do consumo mundial",
-      "Expansão industrial"
+      "Aumentar a temperatura das ruas",
+      "Reduzir áreas de circulação",
+      "Ajudar a melhorar o conforto térmico e a qualidade ambiental",
+      "Impedir a construção de espaços públicos"
     ],
-    correct: 0,
-    explanation: "O ODS 3 tem como objetivo promover vidas saudáveis e bem-estar em todas as idades."
+    correct: 2,
+    explanation: "A vegetação pode fornecer sombra e contribuir para temperaturas mais agradáveis, além de ajudar na qualidade do ar e no bem-estar da população."
   },
+
   {
     type: "truefalse",
-    question: "A vacinação é uma das formas mais importantes de prevenção de doenças.",
+    question: "Parques e praças podem oferecer espaços de convivência, lazer e contato com a natureza.",
     correct: true,
-    explanation: "Vacinas ajudam a proteger indivíduos e comunidades contra diversas doenças."
+    explanation: "Espaços públicos bem planejados podem estimular a convivência entre moradores e proporcionar locais para lazer, atividades físicas e descanso."
   },
+
   {
     type: "multiple",
-    question: "Qual atitude contribui para uma vida mais saudável?",
+    question: "O que pode acontecer quando uma cidade possui pouca vegetação e muitas superfícies de concreto?",
     options: [
-      "Ignorar sintomas de doenças",
-      "Manter alimentação equilibrada e praticar atividades físicas",
-      "Evitar consultas médicas preventivas",
-      "Usar medicamentos sem orientação"
+      "A cidade sempre fica mais fria",
+      "Pode ocorrer aumento das temperaturas em determinadas áreas",
+      "A qualidade ambiental melhora automaticamente",
+      "A quantidade de áreas verdes aumenta"
     ],
     correct: 1,
-    explanation: "Hábitos saudáveis e acompanhamento médico ajudam na prevenção de problemas de saúde."
+    explanation: "Áreas urbanas muito construídas podem formar as chamadas ilhas de calor, nas quais as temperaturas podem ser maiores do que em regiões próximas com mais vegetação."
   }
 ],
+
 4: [
   {
     type: "multiple",
-    question: "Qual é o principal objetivo do ODS 4 - Educação de Qualidade?",
+    question: "Qual atitude ajuda na gestão sustentável dos resíduos?",
     options: [
-      "Garantir educação inclusiva, equitativa e de qualidade para todos",
-      "Aumentar apenas o número de escolas particulares",
-      "Substituir professores por tecnologia",
-      "Reduzir o acesso ao ensino superior"
+      "Jogar lixo em terrenos vazios",
+      "Misturar todos os resíduos sem necessidade",
+      "Reduzir, reutilizar e reciclar materiais sempre que possível",
+      "Aumentar o desperdício"
     ],
-    correct: 0,
-    explanation: "O ODS 4 busca garantir oportunidades de aprendizagem para todas as pessoas durante toda a vida."
+    correct: 2,
+    explanation: "Reduzir a quantidade de resíduos produzidos é importante porque diminui a pressão sobre sistemas de coleta, tratamento e disposição final do lixo."
   },
+
   {
     type: "truefalse",
-    question: "A educação de qualidade contribui para reduzir desigualdades sociais e ampliar oportunidades.",
+    question: "A coleta seletiva pode facilitar o encaminhamento de materiais para a reciclagem.",
     correct: true,
-    explanation: "A educação ajuda no desenvolvimento pessoal, profissional e social, diminuindo diferenças entre grupos."
+    explanation: "A separação adequada dos resíduos facilita o trabalho de reciclagem e pode permitir que materiais retornem ao ciclo produtivo."
   },
+
   {
     type: "multiple",
-    question: "Qual atitude ajuda a melhorar a qualidade da educação?",
+    question: "Por que o descarte incorreto de resíduos pode ser um problema para as cidades?",
     options: [
-      "Diminuir investimentos em escolas",
-      "Garantir formação adequada para professores",
-      "Impedir o uso de novas tecnologias",
-      "Reduzir o acesso dos estudantes"
+      "Porque melhora a drenagem das ruas",
+      "Porque pode causar poluição e contribuir para problemas urbanos",
+      "Porque aumenta os espaços verdes",
+      "Porque reduz automaticamente os custos de limpeza"
     ],
     correct: 1,
-    explanation: "Professores preparados e boas condições de ensino são fundamentais para uma educação de qualidade."
+    explanation: "Resíduos descartados de forma inadequada podem obstruir sistemas de drenagem e contribuir para alagamentos, além de causar poluição de áreas urbanas."
   }
 ],
 
 5: [
   {
     type: "multiple",
-    question: "Qual é o principal objetivo do ODS 5 - Igualdade de Gênero?",
+    question: "Por que preservar patrimônios históricos e culturais é importante?",
     options: [
-      "Garantir igualdade de direitos e oportunidades entre gêneros",
-      "Criar diferenças maiores entre homens e mulheres",
-      "Eliminar a participação feminina na sociedade",
-      "Diminuir o acesso à educação"
+      "Porque ajuda a manter a memória e a identidade das comunidades",
+      "Porque impede qualquer mudança nas cidades",
+      "Porque transforma todos os prédios antigos em museus",
+      "Porque elimina a necessidade de novas construções"
     ],
     correct: 0,
-    explanation: "O ODS 5 busca alcançar a igualdade de gênero e fortalecer a autonomia de mulheres e meninas."
+    explanation: "Edifícios, monumentos, praças e outros lugares podem guardar parte da história e da identidade de uma comunidade."
   },
+
   {
     type: "truefalse",
-    question: "Garantir que meninas e mulheres tenham acesso à educação é uma ação relacionada ao ODS 5.",
+    question: "Preservar locais históricos pode ajudar a manter a identidade cultural de uma comunidade.",
     correct: true,
-    explanation: "A igualdade de acesso à educação é essencial para ampliar oportunidades e combater desigualdades."
+    explanation: "A preservação do patrimônio ajuda a manter vivas referências históricas e culturais importantes para as gerações atuais e futuras."
   },
+
   {
     type: "multiple",
-    question: "Qual situação representa uma desigualdade de gênero?",
+    question: "Como o patrimônio cultural pode contribuir para uma cidade sustentável?",
     options: [
-      "Todas as pessoas recebem as mesmas oportunidades",
-      "Mulheres e homens têm os mesmos direitos",
-      "Uma pessoa é impedida de estudar ou trabalhar por causa do gênero",
-      "Empresas promovem igualdade salarial"
+      "Fortalecendo a identidade local e valorizando a história da comunidade",
+      "Eliminando espaços públicos",
+      "Aumentando obrigatoriamente o trânsito",
+      "Substituindo todas as áreas verdes"
     ],
-    correct: 2,
-    explanation: "Impedir oportunidades com base no gênero é uma forma de desigualdade."
+    correct: 0,
+    explanation: "Uma cidade sustentável também valoriza sua história e sua cultura, preservando referências importantes para as gerações atuais e futuras."
   }
 ],
 
 6: [
   {
     type: "multiple",
-    question: "Qual é o objetivo principal do ODS 6 - Água Potável e Saneamento?",
+    question: "O que significa uma cidade ser resiliente?",
     options: [
-      "Garantir acesso à água potável e saneamento para todos",
-      "Aumentar o consumo de água sem controle",
-      "Eliminar rios e lagos",
-      "Usar água apenas na indústria"
+      "Ser capaz de se preparar e responder melhor a situações de risco",
+      "Nunca sofrer nenhum desastre",
+      "Construir apenas prédios muito altos",
+      "Evitar qualquer mudança no planejamento urbano"
     ],
     correct: 0,
-    explanation: "O ODS 6 busca garantir disponibilidade e gestão sustentável da água e saneamento básico."
+    explanation: "Resiliência urbana envolve preparação, prevenção e capacidade de recuperação diante de eventos como enchentes, deslizamentos e outros desastres."
   },
+
   {
     type: "truefalse",
-    question: "O tratamento de esgoto ajuda a proteger a saúde das pessoas e o meio ambiente.",
+    question: "Uma cidade resiliente deve estar preparada para enfrentar situações de risco, como enchentes e deslizamentos.",
     correct: true,
-    explanation: "O saneamento adequado reduz doenças e evita a contaminação de rios e fontes de água."
+    explanation: "O planejamento e a prevenção ajudam as cidades a reduzir riscos e responder melhor quando situações de emergência acontecem."
   },
+
   {
     type: "multiple",
-    question: "Qual atitude contribui para o uso sustentável da água?",
+    question: "Por que o planejamento é importante para reduzir os riscos de desastres?",
     options: [
-      "Deixar torneiras abertas sem necessidade",
-      "Desperdiçar água potável",
-      "Reutilizar água quando possível e evitar desperdícios",
-      "Jogar lixo em rios"
+      "Porque permite identificar riscos e preparar medidas de prevenção",
+      "Porque elimina completamente os fenômenos naturais",
+      "Porque impede o crescimento das cidades",
+      "Porque aumenta a ocupação de áreas de risco"
     ],
-    correct: 2,
-    explanation: "O uso consciente da água ajuda a preservar esse recurso essencial para as futuras gerações."
+    correct: 0,
+    explanation: "Mapear áreas de risco e planejar o uso do território permite que governos e comunidades adotem medidas antes que situações perigosas aconteçam."
   }
 ],
+
 7: [
   {
     type: "multiple",
-    question: "Qual é o principal objetivo do ODS 7 - Energia Limpa e Acessível?",
+    question: "Qual é uma característica de um bom planejamento urbano?",
     options: [
-      "Garantir acesso a energia sustentável e confiável para todos",
-      "Aumentar o uso de combustíveis poluentes",
-      "Impedir o desenvolvimento de novas tecnologias",
-      "Eliminar todas as fontes de energia"
+      "Crescimento desorganizado",
+      "Organização dos espaços considerando as necessidades da população",
+      "Construção sem considerar infraestrutura",
+      "Concentração de todos os serviços em uma única região"
     ],
-    correct: 0,
-    explanation: "O ODS 7 busca ampliar o acesso à energia limpa, renovável e eficiente."
+    correct: 1,
+    explanation: "O planejamento urbano ajuda a organizar moradias, transporte, áreas verdes, serviços e infraestrutura de maneira mais equilibrada."
   },
+
   {
     type: "truefalse",
-    question: "Fontes de energia renovável, como solar e eólica, podem ajudar a reduzir impactos ambientais.",
+    question: "O planejamento urbano deve considerar as necessidades da população e a infraestrutura disponível.",
     correct: true,
-    explanation: "Energias renováveis emitem menos gases de efeito estufa e ajudam na transição energética."
+    explanation: "Um bom planejamento considera fatores como moradia, transporte, saneamento, áreas verdes, serviços públicos e qualidade de vida."
   },
+
   {
     type: "multiple",
-    question: "Qual fonte de energia é considerada renovável?",
+    question: "Por que é importante planejar a expansão das cidades?",
     options: [
-      "Carvão mineral",
-      "Petróleo",
-      "Energia solar",
-      "Gás natural"
+      "Para evitar problemas de infraestrutura e ocupação inadequada",
+      "Para aumentar a distância entre moradias e serviços",
+      "Para eliminar espaços públicos",
+      "Para impedir qualquer crescimento populacional"
     ],
-    correct: 2,
-    explanation: "A energia solar é renovável porque utiliza a luz do Sol, um recurso naturalmente disponível."
+    correct: 0,
+    explanation: "Quando uma cidade cresce sem planejamento, pode enfrentar problemas como falta de transporte, saneamento insuficiente e ocupação de áreas inadequadas."
   }
 ],
 
 8: [
   {
     type: "multiple",
-    question: "O ODS 8 busca promover principalmente:",
+    question: "O que caracteriza uma cidade inclusiva?",
     options: [
-      "Trabalho decente e crescimento econômico sustentável",
-      "Apenas aumento do consumo",
-      "Redução de empregos",
-      "Fim das atividades econômicas"
+      "Uma cidade acessível e que busca atender diferentes grupos da população",
+      "Uma cidade com espaços públicos exclusivos",
+      "Uma cidade planejada apenas para motoristas",
+      "Uma cidade sem transporte público"
     ],
     correct: 0,
-    explanation: "O ODS 8 incentiva empregos dignos, direitos trabalhistas e crescimento econômico inclusivo."
+    explanation: "A inclusão urbana busca garantir que diferentes pessoas possam utilizar espaços, serviços e oportunidades oferecidos pela cidade."
   },
+
   {
     type: "truefalse",
-    question: "Trabalho decente envolve condições seguras, direitos trabalhistas e respeito aos trabalhadores.",
+    question: "Rampas, calçadas adequadas e sinalização podem melhorar a acessibilidade dos espaços urbanos.",
     correct: true,
-    explanation: "O trabalho decente garante dignidade, segurança e oportunidades para os trabalhadores."
+    explanation: "Recursos de acessibilidade facilitam o uso dos espaços públicos por pessoas com diferentes necessidades de mobilidade."
   },
+
   {
     type: "multiple",
-    question: "Qual situação está de acordo com o ODS 8?",
+    question: "Por que espaços públicos acessíveis são importantes?",
     options: [
-      "Trabalhadores sem direitos",
-      "Ambientes de trabalho inseguros",
-      "Empregos com proteção e condições adequadas",
-      "Exploração de mão de obra"
+      "Porque permitem que mais pessoas participem da vida da comunidade",
+      "Porque diminuem a convivência entre moradores",
+      "Porque devem ser utilizados apenas por determinados grupos",
+      "Porque substituem o transporte público"
     ],
-    correct: 2,
-    explanation: "O ODS 8 defende empregos produtivos, seguros e com respeito aos direitos humanos."
+    correct: 0,
+    explanation: "Praças, parques, calçadas e outros espaços públicos devem ser planejados para que diferentes pessoas possam utilizá-los com segurança e autonomia."
   }
 ],
 
 9: [
   {
     type: "multiple",
-    question: "Qual é o foco principal do ODS 9 - Indústria, Inovação e Infraestrutura?",
+    question: "Qual é um dos principais objetivos da ODS 11?",
     options: [
-      "Construir infraestruturas resilientes e incentivar inovação",
-      "Diminuir todo desenvolvimento tecnológico",
-      "Evitar novas descobertas científicas",
-      "Acabar com a indústria"
+      "Incentivar o crescimento desorganizado das cidades",
+      "Tornar as cidades e comunidades mais inclusivas, seguras, resilientes e sustentáveis",
+      "Aumentar a quantidade de veículos particulares",
+      "Concentrar a população nas grandes cidades"
     ],
-    correct: 0,
-    explanation: "O ODS 9 busca promover infraestrutura sustentável, industrialização inclusiva e inovação."
+    correct: 1,
+    explanation: "A ODS 11 faz parte dos 17 Objetivos de Desenvolvimento Sustentável da ONU e busca melhorar a forma como as cidades são planejadas e vividas."
   },
-  {
-    type: "truefalse",
-    question: "A inovação tecnológica pode ajudar a criar soluções para problemas sociais e ambientais.",
-    correct: true,
-    explanation: "Novas tecnologias podem melhorar transportes, energia, saúde e comunicação."
-  },
-  {
-    type: "multiple",
-    question: "Qual exemplo representa uma infraestrutura sustentável?",
-    options: [
-      "Transportes públicos eficientes",
-      "Construções sem planejamento",
-      "Desperdício de recursos",
-      "Uso excessivo de materiais poluentes"
-    ],
-    correct: 0,
-    explanation: "Infraestruturas sustentáveis melhoram a qualidade de vida reduzindo impactos ambientais."
-  }
-],
 
-10: [
-  {
-    type: "multiple",
-    question: "Qual é o objetivo do ODS 10 - Redução das Desigualdades?",
-    options: [
-      "Diminuir desigualdades dentro dos países e entre eles",
-      "Aumentar diferenças sociais",
-      "Limitar oportunidades",
-      "Reduzir direitos"
-    ],
-    correct: 0,
-    explanation: "O ODS 10 busca promover inclusão social, econômica e política para todos."
-  },
   {
     type: "truefalse",
-    question: "A desigualdade pode estar relacionada ao acesso diferente a educação, saúde e oportunidades.",
+    question: "Uma cidade sustentável deve equilibrar qualidade de vida, desenvolvimento e proteção ambiental.",
     correct: true,
-    explanation: "Diferenças no acesso a recursos e direitos podem gerar desigualdades sociais."
+    explanation: "A sustentabilidade urbana busca atender às necessidades da população sem comprometer os recursos e as condições de vida das futuras gerações."
   },
-  {
-    type: "multiple",
-    question: "Qual ação ajuda a reduzir desigualdades?",
-    options: [
-      "Garantir acesso igualitário a oportunidades",
-      "Impedir grupos de participarem da sociedade",
-      "Aumentar preconceitos",
-      "Reduzir investimentos sociais"
-    ],
-    correct: 0,
-    explanation: "Políticas de inclusão e igualdade de oportunidades ajudam a diminuir desigualdades."
-  }
-],
 
-11: [
   {
     type: "multiple",
-    question: "O ODS 11 tem como objetivo tornar as cidades:",
+    question: "Qual atitude pode contribuir para reduzir os impactos ambientais de uma cidade?",
     options: [
-      "Mais inclusivas, seguras, resilientes e sustentáveis",
-      "Mais poluídas",
-      "Menos acessíveis",
-      "Sem planejamento"
+      "Aumentar o desperdício de recursos",
+      "Incentivar o uso eficiente de recursos e práticas sustentáveis",
+      "Reduzir áreas verdes",
+      "Aumentar o descarte irregular de resíduos"
     ],
-    correct: 0,
-    explanation: "O ODS 11 busca melhorar a qualidade de vida nas cidades."
-  },
-  {
-    type: "truefalse",
-    question: "O planejamento urbano pode ajudar a reduzir problemas como trânsito e falta de áreas verdes.",
-    correct: true,
-    explanation: "Cidades planejadas conseguem oferecer melhores serviços e qualidade de vida."
-  },
-  {
-    type: "multiple",
-    question: "Qual exemplo contribui para uma cidade sustentável?",
-    options: [
-      "Mais áreas verdes e transporte público eficiente",
-      "Aumento do desperdício",
-      "Destruição de espaços naturais",
-      "Falta de planejamento urbano"
-    ],
-    correct: 0,
-    explanation: "Áreas verdes e mobilidade sustentável tornam as cidades mais equilibradas."
+    correct: 1,
+    explanation: "O uso eficiente de água, energia e materiais pode ajudar as cidades a reduzir desperdícios e diminuir seus impactos sobre o meio ambiente."
   }
 ],
-
-12: [
-  {
-    type: "multiple",
-    question: "Qual é o principal objetivo do ODS 12 - Consumo e Produção Responsáveis?",
-    options: [
-      "Garantir padrões sustentáveis de consumo e produção",
-      "Estimular o desperdício",
-      "Aumentar a produção sem limites",
-      "Ignorar impactos ambientais"
-    ],
-    correct: 0,
-    explanation: "O ODS 12 busca usar recursos naturais de forma eficiente e reduzir desperdícios."
-  },
-  {
-    type: "truefalse",
-    question: "Reciclagem e reutilização de materiais ajudam a diminuir impactos ambientais.",
-    correct: true,
-    explanation: "Essas práticas reduzem a quantidade de resíduos e economizam recursos naturais."
-  },
-  {
-    type: "multiple",
-    question: "Qual atitude representa consumo consciente?",
-    options: [
-      "Comprar apenas o necessário e evitar desperdícios",
-      "Descartar produtos ainda úteis",
-      "Comprar sem planejamento",
-      "Desperdiçar água e energia"
-    ],
-    correct: 0,
-    explanation: "O consumo consciente envolve escolhas responsáveis considerando impactos ambientais e sociais."
-  }
-],
-13: [
-  {
-    type: "multiple",
-    question: "Qual é o principal objetivo do ODS 13 - Ação Contra a Mudança do Clima?",
-    options: [
-      "Tomar medidas urgentes para combater as mudanças climáticas",
-      "Aumentar a emissão de gases poluentes",
-      "Reduzir pesquisas ambientais",
-      "Eliminar fontes de energia renovável"
-    ],
-    correct: 0,
-    explanation: "O ODS 13 busca combater as mudanças climáticas e seus impactos por meio de ações globais."
-  },
-  {
-    type: "truefalse",
-    question: "O desmatamento contribui para o aumento das mudanças climáticas.",
-    correct: true,
-    explanation: "As florestas armazenam carbono, e sua destruição aumenta a quantidade de gases de efeito estufa na atmosfera."
-  },
-  {
-    type: "multiple",
-    question: "Qual atitude ajuda a reduzir a emissão de gases de efeito estufa?",
-    options: [
-      "Usar transporte coletivo e energias renováveis",
-      "Aumentar o consumo de combustíveis fósseis",
-      "Desperdiçar energia",
-      "Destruir áreas verdes"
-    ],
-    correct: 0,
-    explanation: "Transportes sustentáveis e energias limpas ajudam a diminuir a emissão de carbono."
-  }
-],
-
-14: [
-  {
-    type: "multiple",
-    question: "Qual é o objetivo principal do ODS 14 - Vida na Água?",
-    options: [
-      "Conservar e utilizar de forma sustentável os oceanos e mares",
-      "Aumentar a poluição dos oceanos",
-      "Eliminar espécies marinhas",
-      "Explorar recursos sem limites"
-    ],
-    correct: 0,
-    explanation: "O ODS 14 busca proteger os ecossistemas marinhos e preservar a biodiversidade dos oceanos."
-  },
-  {
-    type: "truefalse",
-    question: "O descarte incorreto de plástico pode prejudicar animais marinhos.",
-    correct: true,
-    explanation: "Plásticos nos oceanos podem causar danos aos animais e desequilibrar ecossistemas."
-  },
-  {
-    type: "multiple",
-    question: "Qual ação ajuda a proteger a vida marinha?",
-    options: [
-      "Reduzir o uso de plásticos descartáveis",
-      "Jogar lixo em rios",
-      "Aumentar a pesca ilegal",
-      "Destruir habitats marinhos"
-    ],
-    correct: 0,
-    explanation: "Reduzir resíduos e proteger áreas marinhas ajuda na conservação dos oceanos."
-  }
-],
-
-15: [
-  {
-    type: "multiple",
-    question: "Qual é o foco principal do ODS 15 - Vida Terrestre?",
-    options: [
-      "Proteger ecossistemas terrestres e biodiversidade",
-      "Aumentar o desmatamento",
-      "Eliminar áreas naturais",
-      "Reduzir espécies existentes"
-    ],
-    correct: 0,
-    explanation: "O ODS 15 busca preservar florestas, combater a degradação do solo e proteger espécies."
-  },
-  {
-    type: "truefalse",
-    question: "A biodiversidade é importante porque mantém o equilíbrio dos ecossistemas.",
-    correct: true,
-    explanation: "Diversas espécies contribuem para o funcionamento saudável dos ambientes naturais."
-  },
-  {
-    type: "multiple",
-    question: "Qual atitude ajuda a preservar a vida terrestre?",
-    options: [
-      "Combater o desmatamento e proteger áreas naturais",
-      "Destruir habitats de animais",
-      "Aumentar a caça ilegal",
-      "Poluir o solo"
-    ],
-    correct: 0,
-    explanation: "A preservação dos habitats é essencial para proteger espécies e recursos naturais."
-  }
-],
-
-16: [
-  {
-    type: "multiple",
-    question: "O ODS 16 busca promover principalmente:",
-    options: [
-      "Paz, justiça e instituições eficazes",
-      "Conflitos entre países",
-      "Aumento da corrupção",
-      "Redução dos direitos humanos"
-    ],
-    correct: 0,
-    explanation: "O ODS 16 promove sociedades pacíficas, acesso à justiça e instituições responsáveis."
-  },
-  {
-    type: "truefalse",
-    question: "O combate à corrupção contribui para instituições mais justas e eficientes.",
-    correct: true,
-    explanation: "Instituições transparentes fortalecem a confiança da população e o desenvolvimento sustentável."
-  },
-  {
-    type: "multiple",
-    question: "Qual atitude está relacionada ao ODS 16?",
-    options: [
-      "Respeitar direitos humanos e promover justiça",
-      "Impedir participação social",
-      "Aumentar violência",
-      "Diminuir transparência"
-    ],
-    correct: 0,
-    explanation: "O ODS 16 defende sociedades inclusivas, pacíficas e baseadas em direitos."
-  }
-],
-
-17: [
-  {
-    type: "multiple",
-    question: "Qual é o principal objetivo do ODS 17 - Parcerias e Meios de Implementação?",
-    options: [
-      "Fortalecer parcerias globais para alcançar o desenvolvimento sustentável",
-      "Separar países e impedir cooperação",
-      "Reduzir comunicação internacional",
-      "Eliminar projetos conjuntos"
-    ],
-    correct: 0,
-    explanation: "O ODS 17 reconhece que a cooperação entre países, organizações e pessoas é essencial."
-  },
-  {
-    type: "truefalse",
-    question: "A colaboração entre governos, empresas e sociedade pode ajudar a alcançar os ODS.",
-    correct: true,
-    explanation: "Parcerias unem conhecimentos e recursos para solucionar desafios globais."
-  },
-  {
-    type: "multiple",
-    question: "Qual exemplo representa uma parceria sustentável?",
-    options: [
-      "Organizações trabalhando juntas para resolver problemas ambientais",
-      "Países recusando qualquer cooperação",
-      "Empresas ignorando impactos sociais",
-      "Grupos impedindo projetos sustentáveis"
-    ],
-    correct: 0,
-    explanation: "A cooperação entre diferentes setores aumenta as chances de alcançar metas sustentáveis."
-  }
-]
 };
 
 // ─── Achievements ─────────────────────────────────────────────────────────────
 
+
 const ACHIEVEMENTS = [
-  { id: "first_mission", name: "Primeira Missão", desc: "Completou sua primeira missão ODS", emoji: "🚀", color: "#4ade80" },
-  { id: "eco_warrior", name: "Guerreiro Ecológico", desc: "Completou 5 missões sobre meio ambiente", emoji: "🌿", color: "#56C02B" },
-  { id: "water_saver", name: "Protetor das Águas", desc: "Completou a missão ODS 6 com 3 estrelas", emoji: "💧", color: "#26BDE2" },
-  { id: "climate_hero", name: "Herói do Clima", desc: "Completou a missão ODS 13 com pontuação máxima", emoji: "🌍", color: "#3F7E44" },
+  { id: "first_mission", name: "Primeira Missão", desc: "Completou sua primeira missão da ODS 11", emoji: "🚀", color: "#4ade80" },
+  { id: "eco_warrior", name: "Guerreiro Urbano", desc: "Completou 5 missões da ODS 11", emoji: "🏙️", color: "#56C02B" },
+  { id: "water_saver", name: "Guardião do Saneamento", desc: "Completou a missão Saneamento Básico com 3 estrelas", emoji: "💧", color: "#26BDE2" },
+  { id: "climate_hero", name: "Herói da Resiliência", desc: "Completou a missão Resiliência Climática com pontuação máxima", emoji: "🌍", color: "#3F7E44" },
   { id: "quiz_master", name: "Mestre do Quiz", desc: "Acertou 10 questões seguidas", emoji: "🧠", color: "#fbbf24" },
-  { id: "perfect_score", name: "Pontuação Perfeita", desc: "Conseguiu 100% em qualquer missão", emoji: "⭐", color: "#FD6925" },
-  { id: "global_citizen", name: "Cidadão Global", desc: "Completou todas as 17 missões", emoji: "🌐", color: "#19486A" },
-  { id: "speed_runner", name: "Velocista", desc: "Completou uma missão em menos de 2 minutos", emoji: "⚡", color: "#FCC30B" },
+  { id: "perfect_score", name: "Pontuação Perfeita", desc: "Conseguiu 100% em qualquer missão da ODS 11", emoji: "⭐", color: "#FD6925" },
+  { id: "global_citizen", name: "Cidadão da Cidade", desc: "Completou todas as 9 missões da ODS 11", emoji: "🌐", color: "#19486A" },
+  { id: "speed_runner", name: "Velocista Urbano", desc: "Completou uma missão em menos de 2 minutos", emoji: "⚡", color: "#FCC30B" },
 ];
+
+
 
 const RANKING = [
   { name: "Ana Silva", xp: 4850, avatar: "👩", level: 12 },
@@ -717,12 +556,28 @@ function HomeScreen({ onNav, xp, level, coins, completedPhases }: { onNav: (s: S
       </div>
 
       <div className="flex flex-col items-center gap-6 z-10 max-w-md w-full">
-        {/* Logo */}
-        <div className={`text-8xl transition-transform duration-700 ${pulse ? "scale-110" : "scale-100"}`}>🌍</div>
-        <div className="text-center">
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight" style={{ fontFamily: "Fredoka One, sans-serif", color: "#4ade80", textShadow: "0 0 40px #4ade8066" }}>Missão ODS</h1>
-          <p className="text-white/70 mt-2 text-base" style={{ fontFamily: "Nunito, sans-serif" }}>Aprenda sobre os 17 Objetivos de Desenvolvimento Sustentável</p>
-        </div>
+  {/* Logo */}
+  <div className={`text-8xl transition-transform duration-700 ${pulse ? "scale-110" : "scale-100"}`}>🌍</div>
+
+  <div className="text-center">
+    <h1
+      className="text-5xl md:text-6xl font-black tracking-tight"
+      style={{
+        fontFamily: "Fredoka One, sans-serif",
+        color: "#4ade80",
+        textShadow: "0 0 40px #4ade8066"
+      }}
+    >
+      Missão ODS
+    </h1>
+
+    <p
+      className="text-white/70 mt-2 text-base"
+      style={{ fontFamily: "Nunito, sans-serif" }}
+    >
+      Aprenda sobre a ODS 11 — Cidades e Comunidades Sustentáveis
+    </p>
+  </div>
 
         {/* Stats */}
         <div className="flex gap-4 bg-white/5 rounded-2xl px-6 py-3 border border-white/10">
@@ -784,7 +639,7 @@ function PhasesScreen({ onNav, onSelectSDG, completedPhases, stars }: { onNav: (
         <div className="mb-6">
           <BackBtn onClick={() => onNav("home")} />
           <h2 className="text-3xl font-black mt-2" style={{ fontFamily: "Fredoka One, sans-serif", color: "#f0f7ff" }}>Escolha sua Missão</h2>
-          <p className="text-white/60 text-sm mt-1" style={{ fontFamily: "Nunito, sans-serif" }}>{completedPhases.length}/17 missões concluídas · {totalXP} XP conquistados</p>
+          <p className="text-white/60 text-sm mt-1" style={{ fontFamily: "Nunito, sans-serif" }}>{completedPhases.length}/9 missões concluídas · {totalXP} XP conquistados</p>
           <div className="mt-3"><ProgressBar value={completedPhases.length} max={17} color="#4ade80" height={10} /></div>
         </div>
 
@@ -1219,7 +1074,6 @@ function ProfileScreen({ onNav, xp, level, coins, completedPhases, unlockedAchie
         <div className="rounded-2xl p-5 border border-white/10 mb-4" style={{ background: "rgba(255,255,255,0.04)" }}>
           <h3 className="font-black text-white mb-3" style={{ fontFamily: "Nunito, sans-serif" }}>❓ Como Funciona</h3>
           {[
-            ["🗺️", "Escolha uma das 17 missões ODS"],
             ["🧠", "Responda quizzes e complete desafios"],
             ["⭐", "Ganhe estrelas, XP e moedas ecológicas"],
             ["🏆", "Suba no ranking global de sustentabilidade"],
