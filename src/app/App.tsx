@@ -617,7 +617,7 @@ function HomeScreen({ onNav, xp, level, coins, completedPhases }: { onNav: (s: S
           ))}
         </div>
 
-        <p className="text-white/30 text-xs text-center" style={{ fontFamily: "Nunito, sans-serif" }}>17 ODS · Quizzes · Minijogos · Conquistas</p>
+        <p className="text-white/30 text-xs text-center" style={{ fontFamily: "Nunito, sans-serif" }}> ODS 11 · Quizzes · Minijogos · Conquistas</p>
       </div>
     </div>
   );
